@@ -78,27 +78,27 @@ if __name__ == '__main__':
         for entry in entries:
             print(entry.name)
             file = open(files_path + entry.name, 'r')
-            Text = file.read()
+            text = file.read()
 
-            Text = re.sub(r'\d*\n.*-->.*\n', ' ', Text)
-            Text = re.sub(r'</?.*>', ' ', Text)
+            text = re.sub(r'\d*\n.*-->.*\n', ' ', text)
+            text = re.sub(r'</?.*>', ' ', text)
 
             for char in '-.,!?;[]()"%/\n':
-                Text = Text.replace(char, ' ')
-            Text = Text.lower()
+                text = text.replace(char, ' ')
+            text = text.lower()
 
-            word_list = Text.split()
+            word_list = text.split()
+            word_dictionary = {}
 
-            d = {}
             for word in word_list:
-                d[word] = d.get(word, 0) + 1
+                word_dictionary[word] = word_dictionary.get(word, 0) + 1
 
-            word_freq = []
-            for key, value in d.items():
-                word_freq.append((value, key))
+            word_frequency = []
+            for key, value in word_dictionary.items():
+                word_frequency.append((value, key))
 
             with connection:
-                for word_info in word_freq:
+                for word_info in word_frequency:
                     current_count_value = 0
                     try:
                         current_count_value = int(get_count_by_word(word_info[1]))
